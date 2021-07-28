@@ -1,6 +1,6 @@
 # that-2021-conference
 ## Azure DevOps for Agencies; Automation of the Entire Ecosystem
-### Slides, scripts, and examples from my 2021 THAT conference
+### Slides, scripts, and examples from my 2021 THAT conference presentation
 
 Overview, in this session we will:
 * Why DevOps is different for agencies, loads of short-term projects (6 months)
