@@ -1,0 +1,90 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoViewPage<ContentModels.ContentPage>
+@using ContentModels = Umbraco.Web.PublishedModels;
+@{
+    Layout = "Master.cshtml";
+    var image = Model.Value<IPublishedContent>("image");
+    var home = Model.Root();
+}
+
+@if (image == null)
+{
+    <section class="billboard">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <h1>
+                        @if (!string.IsNullOrEmpty(Model.Value<string>("headline")))
+                        {
+                            @(Model.Value<string>("headline"))
+                        }
+                        else
+                        {
+                            @Model.Name
+                        }
+                    </h1>
+                </div>
+            </div>
+        </div>
+    </section>
+}
+else
+{
+
+    <section class="billboard" style="background-image:url(@image.Url);">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <h1>
+                        @if (!string.IsNullOrEmpty(Model.Value<string>("headline")))
+                        {
+                            @(Model.Value<string>("headline"))
+                        }
+                        else
+                        {
+                            @Model.Name
+                        }
+                    </h1>
+                </div>
+            </div>
+        </div>
+    </section>
+}
+@{ Html.RenderPartial("Breadcrumb"); }
+<section id="main">
+    @if (Model.HasValue("contentRows"))
+    {
+        var components = Model.Value<IEnumerable<IPublishedElement>>("contentRows");
+
+        foreach (var content in components)
+        {
+            @Html.Partial(string.Format("~/Views/Partials/Nested/Modules/{0}.cshtml", content.ContentType.Alias), content)
+        }
+    }
+</section>
+@if (Model.Value<bool>("includechildListing"))
+{
+    { Html.RenderPartial("ChildListing"); }
+
+}
+
+@section jsonld {
+    @if (Model.HasValue("jSONLD"))
+    {
+        <script type="application/ld+json">
+            @Html.Raw(Model.Value("jSONLD"))
+        </script>
+    }
+    else
+    {
+        <script type="application/ld+json">
+            {
+            "@@context": "http://schema.org",
+            "@@type": "WebPage",
+            "name": "@(Model.HasValue("pageTitle") ? Model.Value("pageTitle") : Model.Name)",
+            "primaryImageOfPage": "@(Model.HasValue("metaImage") ? $"{home.Url(mode: UrlMode.Absolute)}{Model.Value<IPublishedContent>("metaImage").Url}" : $"{home.Url(mode: UrlMode.Absolute)}images/logo.png")",
+            "description": "@Model.Value("metaDescription")",
+            "url": "@Model.Url(mode: UrlMode.Absolute)"
+            }
+        </script>
+    }
+}

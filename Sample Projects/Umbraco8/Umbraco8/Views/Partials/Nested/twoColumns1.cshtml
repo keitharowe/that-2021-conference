@@ -1,0 +1,69 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoViewPage<Umbraco.Web.PublishedModels.TwoColumns1>
+@using Umbraco.Web;
+@using Umbraco.Core.Models;
+@{
+    Layout = null;
+}
+
+@if (!Model.Value<bool>("sidebarLeft"))
+{
+    <div class="row">
+        <div class="col-md-8">
+            @if (Model.HasValue("columnOne"))
+            {
+                var components = Model.Value<IEnumerable<IPublishedElement>>("columnOne");
+
+                foreach (var content in components)
+                {
+                    <div>
+                        @Html.Partial(string.Format("~/Views/Partials/Nested/Modules/{0}.cshtml", content.ContentType.Alias), content)
+                    </div>
+                }
+            }
+        </div>
+        <div class="col-md-4">
+            @if (Model.HasValue("columnTwo"))
+            {
+                var components = Model.Value<IEnumerable<IPublishedElement>>("columnTwo");
+
+                foreach (var content in components)
+                {
+                    <div>
+                        @Html.Partial(string.Format("~/Views/Partials/Nested/Modules/{0}.cshtml", content.ContentType.Alias), content)
+                    </div>
+                }
+            }
+        </div>
+    </div>
+}
+else
+{
+    <div class="row">
+        <div class="col-md-4">
+            @if (Model.HasValue("columnOne"))
+            {
+                var components = Model.Value<IEnumerable<IPublishedElement>>("columnOne");
+
+                foreach (var content in components)
+                {
+                    <div>
+                        @Html.Partial(string.Format("~/Views/Partials/Nested/Modules/{0}.cshtml", content.ContentType.Alias), content)
+                    </div>
+                }
+            }
+        </div>
+        <div class="col-md-8">
+            @if (Model.HasValue("columnTwo"))
+            {
+                var components = Model.Value<IEnumerable<IPublishedElement>>("columnTwo");
+
+                foreach (var content in components)
+                {
+                    <div>
+                        @Html.Partial(string.Format("~/Views/Partials/Nested/Modules/{0}.cshtml", content.ContentType.Alias), content)
+                    </div>
+                }
+            }
+        </div>
+    </div>
+}

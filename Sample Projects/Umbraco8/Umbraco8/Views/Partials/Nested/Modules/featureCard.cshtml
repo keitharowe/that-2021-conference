@@ -1,0 +1,32 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoViewPage<Umbraco.Web.PublishedModels.FeatureCard>
+@using Umbraco.Web;
+@using Umbraco.Core.Models;
+@using Umbraco.Web.Models;
+@{
+    var image = Model.Value<IPublishedContent>("image");
+    var link = Model.Value<Link>("link");
+    var margin = Model.Value<string>("margin");
+    var padding = Model.Value<string>("padding");
+    var customId = Model.Value<string>("customID");
+    var customClass = Model.Value<string>("customClass");
+}
+<div id="@customId" class="card @margin  @padding  @customClass  @(Model.HasValue("backgroundColor") ? $"background-{Model.Value<Umbraco.Core.PropertyEditors.ValueConverters.ColorPickerValueConverter.PickedColor>("backgroundColor").Label}" : string.Empty)">
+    @if (image != null)
+    {
+        <img data-src="@image.Url?quality=90" src="@image.Url?quality=10" class="card-img-top lazyload" />
+    }
+    <div class="card-body">
+        @if (Model.HasValue("headline"))
+        {
+            <h3 class="card-title">@(Model.Value<string>("headline"))</h3>
+        }
+        @if (Model.HasValue("description"))
+        {
+            <p class="card-text">@(Model.Value<IHtmlString>("description"))</p>
+        }
+        @if (link != null)
+        {
+            <a href="@link.Url" target="@link.Target" class="btn btn-primary">@link.Name</a>
+        }
+    </div>
+</div>

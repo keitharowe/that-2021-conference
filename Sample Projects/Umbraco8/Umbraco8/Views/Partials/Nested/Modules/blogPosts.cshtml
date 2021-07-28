@@ -1,0 +1,80 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoViewPage<Umbraco.Web.PublishedModels.BlogPosts>
+@using Umbraco.Web;
+
+@{
+    IEnumerable<IPublishedContent> blogPosts = null;
+    var blogArchiveNodes = Model.Value<IEnumerable<IPublishedContent>>("blogArchiveNodes")?.Where(x => x.ContentType.Alias == "ArticulateArchive");
+    if (blogArchiveNodes != null)
+    {
+        blogPosts = blogArchiveNodes.SelectMany(s => s.Children()).OrderByDescending(x => x.Value<DateTime>("publishedDate"));
+    }
+}
+@if (!Model.Value<bool>("umbracoNaviHide"))
+{
+    if (blogPosts != null)
+    {
+        var numberOfPosts = Model.HasValue("numberOfPostsToDisplay") ? Model.Value<int>("numberOfPostsToDisplay") : 2;
+
+        var category = Model.HasValue("category") ? Model.Value<string>("category") : null;
+        if (category != null)
+        {
+            blogPosts = blogPosts.Where(x => x.Value<IEnumerable<string>>("categories").Contains(category));
+        }
+
+        var tag = Model.HasValue("tag") ? Model.Value<string>("tag") : null;
+        if (tag != null)
+        {
+            blogPosts = blogPosts.Where(x => x.Value<IEnumerable<string>>("tags").Contains(tag));
+        }
+
+        if (blogPosts != null && blogPosts.Any())
+        {
+            <section class="blog div-section @(Model.HasValue("backgroundColor") ? $"background-{Model.Value<Umbraco.Core.PropertyEditors.ValueConverters.ColorPickerValueConverter.PickedColor>("backgroundColor").Label}" : string.Empty)">
+
+                @if (!string.IsNullOrEmpty(Model.Value<string>("headline")))
+                {
+                    <h2 class="display-2 text-center mb-5">@(Model.Value<string>("headline"))</h2>
+                }
+                <div class="container-fluid">
+                    <div class="row justify-content-center">
+                        @foreach (var post in blogPosts.Take(numberOfPosts))
+                        {
+                            <div class="col-md-4">
+                                <div class="card">
+                                    @if (post.HasValue("postImage"))
+                                    {
+                                        <div class="in-wrap">
+                                            <a href="@post.Url">
+                                                <img data-src="@post.GetCropUrl("postImage", "blogPost")" class="img-fluid lazyload card-img-top" alt="" />
+                                            </a>
+                                        </div>
+
+                                    }
+                                    <div class="card-body">
+                                        <h3 class="card-title"><a href="@post.Url">@post.Name</a></h3>
+                                        <p class="card-text">
+                                            @(post.Value("excerpt"))
+                                        </p>
+                                        @if (post.HasValue("tags"))
+                                        {
+                                            <span class="btn">@tag</span>
+                                        }
+                                        <p>
+                                            <small>@(post.Value<DateTime>("publishedDate").ToString("MMMM d, yyyy"))  <!--<a href="#">@post.Value("author")</a>--></small>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                    <div class="text-center mt-5">
+                        @foreach (var archive in blogArchiveNodes)
+                        {
+                            <a href="@archive.Parent.Url" class="btn btn-primary">View All @(archive.Parent.HasValue("blogTitle") ? archive.Parent.Value("blogTitle") : archive.Parent.Name) Posts</a>
+                        }
+                    </div>
+                </div>
+            </section>
+        }
+    }
+}

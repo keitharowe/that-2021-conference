@@ -1,0 +1,81 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoViewPage<Umbraco.Web.PublishedModels.Video>
+@using Umbraco.Web;
+
+@{
+    var direction = Model.Value<string>("videoPlacement");
+    bool isFull = direction == "Video Full";
+    bool isLeft = direction == "Video Left";
+    var margin = Model.Value<string>("margin");
+    var padding = Model.Value<string>("padding");
+    var customId = Model.Value<string>("customID");
+    var customClass = Model.Value<string>("customClass");
+
+}
+@if (!Model.Value<bool>("umbracoNaviHide"))
+{
+    <section id=" @customId" class="video div-section @margin  @padding  @customClass  @(Model.HasValue("backgroundColor") ? $"background-{Model.Value<Umbraco.Core.PropertyEditors.ValueConverters.ColorPickerValueConverter.PickedColor>("backgroundColor").Label}" : string.Empty)">
+        <div class="container">
+            <div class="row align-items-center">
+                @if (isFull)
+                {
+                    <div class="col">
+                        <div class="video-wrap">
+                            @if (!string.IsNullOrEmpty(Model.Value<string>("headline")))
+                            {
+                                <h2 class="@(Model.HasValue("headlineColor") ? $"text-{Model.Value<Umbraco.Core.PropertyEditors.ValueConverters.ColorPickerValueConverter.PickedColor>("headlineColor").Label}" : string.Empty)">
+                                    @(Model.Value<string>("headline"))
+                                </h2>
+                            }
+                            @if (Model.HasValue("description"))
+                            {
+
+                                <div class="@(Model.HasValue("textColor") ? $"text-{Model.Value<Umbraco.Core.PropertyEditors.ValueConverters.ColorPickerValueConverter.PickedColor>("textColor").Label}" : string.Empty)">
+                                    @(Model.Value<IHtmlString>("description"))
+                            </div>
+                            }
+                            @if (!string.IsNullOrEmpty(Model.Value<string>("videoEmbedLink")))
+                            {
+                                <div class="embed-responsive embed-responsive-16by9 pull-right">
+                                    <iframe title="@(Model.Value<string>("headline")) Video" class="embed-responsive-item" height="315" src="@(Model.Value<string>("videoEmbedLink"))" frameborder="0" allowfullscreen></iframe>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    <div class="col @(isLeft ? "order-1" : "order-2")">
+                        <div class="video-wrap">
+                            @if (!string.IsNullOrEmpty(Model.Value<string>("videoEmbedLink")))
+                            {
+                                <div class="embed-responsive embed-responsive-16by9 pull-right">
+                                    <iframe title="@(Model.Value<string>("headline")) Video" class="embed-responsive-item" height="315" src="@(Model.Value<string>("videoEmbedLink"))" frameborder="0" allowfullscreen></iframe>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                    if (!string.IsNullOrEmpty(Model.Value<string>("headline")) || Model.HasValue("description"))
+                    {
+                        <div class="col @(isLeft ? "order-2" : "order-1")">
+                            <div class="video-wrap">
+                                @if (!string.IsNullOrEmpty(Model.Value<string>("headline")))
+                                {
+                                    <h2 class="@(Model.HasValue("headlineColor") ? $"text-{Model.Value<Umbraco.Core.PropertyEditors.ValueConverters.ColorPickerValueConverter.PickedColor>("headlineColor").Label}" : string.Empty)">
+                                        @(Model.Value<string>("headline"))
+                                    </h2>
+                                }
+                                @if (Model.HasValue("description"))
+                                {
+
+                                    <div class="@(Model.HasValue("textColor") ? $"text-{Model.Value<Umbraco.Core.PropertyEditors.ValueConverters.ColorPickerValueConverter.PickedColor>("textColor").Label}" : string.Empty)">
+                                        @(Model.Value<IHtmlString>("description"))
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    }
+                }
+            </div>
+        </div>
+    </section>
+}

@@ -1,0 +1,22 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoViewPage<Umbraco.Web.PublishedModels.BillboardWithHeadline>
+@using Umbraco.Web;
+@{
+    var image = Model.Value<IPublishedContent>("backgroundImage");
+     var margin = Model.Value<string>("margin");
+    var padding = Model.Value<string>("padding");
+    var customId = Model.Value<string>("customID");
+    var customClass = Model.Value<string>("customClass");
+}
+@if (!Model.Value<bool>("umbracoNaviHide"))
+{
+    <section id=" @customId" class="header-div @margin @padding @customClass  @(Model.HasValue("backgroundColor") ? $"background-{Model.Value<Umbraco.Core.PropertyEditors.ValueConverters.ColorPickerValueConverter.PickedColor>("backgroundColor").Label}" : string.Empty)" @(image != null ? $"style=background-image:url({@image.Url})" : string.Empty)>
+        <div class="container text-center">
+            <h2 class="@(Model.HasValue("textColor") ? $"text-{Model.Value<Umbraco.Core.PropertyEditors.ValueConverters.ColorPickerValueConverter.PickedColor>("textColor").Label}" : string.Empty)">
+                @if (!string.IsNullOrEmpty(Model.Value<string>("largeHeadline")))
+                {
+                    @(Model.Value<string>("largeHeadline"))
+                }
+            </h2>
+        </div>
+    </section>
+}

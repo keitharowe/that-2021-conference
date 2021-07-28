@@ -1,0 +1,54 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoViewPage<Umbraco.Web.PublishedModels.BannerWithText>
+@using Umbraco.Web;
+@using Umbraco.Web.Models;
+
+@{
+
+    var link = Model.Value<Link>("link");
+    var margin = Model.Value<string>("margin");
+    var padding = Model.Value<string>("padding");
+    var customId = Model.Value<string>("customID");
+    var customClass = Model.Value<string>("customClass");
+}
+
+<section id="@customId" class="@margin  @padding @customClass  @(Model.HasValue("backgroundColor") ? $"background-{Model.Value<Umbraco.Core.PropertyEditors.ValueConverters.ColorPickerValueConverter.PickedColor>("backgroundColor").Label}" : string.Empty)">
+
+    <div class="container">
+        <div class="banner-content">
+            @if (link != null)
+            {
+
+                <div class="row">
+                    <div class="col-md-8">
+                        <h2 class="text-white text-center banner-h2">
+                            @if (!string.IsNullOrEmpty(Model.Value<string>("bannerText")))
+                            {
+                                @(Model.Value<string>("bannerText"))
+                            }
+                        </h2>
+                    </div>
+                    <div class="col-md-4 text-center m-auto">
+                        <a href="@link.Url" target="@link.Target" class="btn btn-gray">@link.Name</a>
+                    </div>
+                </div>
+
+            }
+
+            else
+            {
+                <div class="container">
+                    <div class="banner">
+                        <h2 class="text-white text-left banner-h2">
+                            @if (!string.IsNullOrEmpty(Model.Value<string>("bannerText")))
+                            {
+                                @(Model.Value<string>("bannerText"))
+                            }
+                        </h2>
+                    </div>
+
+                </div>
+            }
+
+        </div>
+    </div>
+</section>

@@ -1,0 +1,36 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoViewPage
+@using Umbraco.Web;
+@using Umbraco.Core.Models;
+@using ClientDependency.Core.Mvc;
+
+@{
+    var images = Model.Value<IEnumerable<IPublishedContent>>("images");
+    Html.RequiresJs("/scripts/lightgallery.min.js");
+}
+<section class="gallery @(Model.HasValue("backgroundColor") ? $"background-{Model.Value<Umbraco.Core.PropertyEditors.ValueConverters.ColorPickerValueConverter.PickedColor>("backgroundColor").Label}" : string.Empty)">
+
+    <section class="container-fluid headline-text">
+        <div class="row justify-content-center">
+            <div class="col-md-10 col-lg-7 text-center">
+                @if (!string.IsNullOrEmpty(Model.Value<string>("headline")))
+                {
+                    <h1>
+                        @Html.Raw(Model.Value<string>("headline"))
+                    </h1>
+                }
+            </div>
+        </div>
+    </section>
+    <div class="row justify-content-center" id="lightgallery">
+        @if (images != null)
+        {
+            foreach (var image in images)
+            {
+                <a href="@image.Url" class="col-sm-3">
+                    <img data-src="@image.Url?quality=80" alt="screenshot" width="510" class="lazyload img-fluid" />
+                </a>
+
+            }
+        }
+    </div>
+</section>

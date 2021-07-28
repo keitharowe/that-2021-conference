@@ -1,0 +1,66 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+    <PropertyGroup>
+        <TargetFramework>net5.0</TargetFramework>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Umbraco.Cms" Version="9.0.0-rc001" />
+    </ItemGroup>
+
+
+    <ItemGroup>
+        <Compile Remove="umbraco\Data\**" />
+        <Compile Remove="umbraco\Logs\**" />
+        <Compile Remove="umbraco\MediaCache\**" />
+        <Compile Remove="umbraco\models\**" />
+    </ItemGroup>
+    <ItemGroup>
+        <EmbeddedResource Remove="umbraco\Data\**" />
+        <EmbeddedResource Remove="umbraco\Logs\**" />
+        <EmbeddedResource Remove="umbraco\MediaCache\**" />
+        <EmbeddedResource Remove="umbraco\models\**" />
+    </ItemGroup>
+    <ItemGroup>
+        <None Remove="umbraco\Logs\**" />
+        <None Remove="umbraco\models\**" />
+        <None Remove="umbraco\Data\**" />
+        <None Remove="umbraco\MediaCache\**" />
+        <None Include="config\**\*.*">
+            <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+            <CopyToPublishDirectory>Always</CopyToPublishDirectory>
+        </None>
+        <None Include="umbraco\**\*.*">
+            <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+            <CopyToPublishDirectory>Always</CopyToPublishDirectory>
+        </None>
+    </ItemGroup>
+    <ItemGroup>
+        <Content Remove="umbraco\Data\**" />
+        <Content Remove="umbraco\Logs\**" />
+        <Content Remove="umbraco\MediaCache\**" />
+        <Content Remove="umbraco\models\**" />
+    </ItemGroup>
+    <ItemGroup>
+      <None Remove="umbraco\Data\packages\createdPackages.config" />
+      <None Remove="umbraco\Data\packages\installedPackages.config" />
+      <None Remove="umbraco\Data\TEMP\DistCache\1-lastsynced.txt" />
+      <None Remove="umbraco\Data\TEMP\ExamineIndexes\External\lucene-c6cc88e02d03baf4c6e6b8a8d13d46d9-write.lock" />
+      <None Remove="umbraco\Data\TEMP\ExamineIndexes\External\segments.gen" />
+      <None Remove="umbraco\Data\TEMP\ExamineIndexes\External\segments_2" />
+      <None Remove="umbraco\Data\TEMP\ExamineIndexes\Internal\lucene-71013f75b5c89b3f033d8bd163c456f6-write.lock" />
+      <None Remove="umbraco\Data\TEMP\ExamineIndexes\Internal\segments.gen" />
+      <None Remove="umbraco\Data\TEMP\ExamineIndexes\Internal\segments_2" />
+      <None Remove="umbraco\Data\TEMP\ExamineIndexes\Members\lucene-12784f7baef5bb005a372ed6cc8e5d23-write.lock" />
+      <None Remove="umbraco\Data\TEMP\ExamineIndexes\Members\segments.gen" />
+      <None Remove="umbraco\Data\TEMP\ExamineIndexes\Members\segments_2" />
+      <None Remove="umbraco\Data\TEMP\TypesCache\umbraco-types.RAM.hash" />
+      <None Remove="umbraco\Data\TEMP\TypesCache\umbraco-types.RAM.list" />
+      <None Remove="umbraco\Logs\UmbracoTraceLog.RAM.20210714.json" />
+      <None Remove="umbraco\Logs\UmbracoTraceLog.RAM.20210724.json" />
+    </ItemGroup>
+
+    <!--Set this to true ModelsBuilder mode is not PureLive -->
+    <PropertyGroup>
+        <RazorCompileOnBuild>false</RazorCompileOnBuild>
+    </PropertyGroup>
+</Project>

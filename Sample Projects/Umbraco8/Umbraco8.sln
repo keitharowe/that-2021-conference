@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31410.357
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Umbraco8", "Umbraco8\Umbraco8.csproj", "{17FD792A-2F32-444A-8ECD-3EF2C29B815C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Local|Any CPU = Local|Any CPU
+		Release|Any CPU = Release|Any CPU
+		UAT|Any CPU = UAT|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{17FD792A-2F32-444A-8ECD-3EF2C29B815C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{17FD792A-2F32-444A-8ECD-3EF2C29B815C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{17FD792A-2F32-444A-8ECD-3EF2C29B815C}.Local|Any CPU.ActiveCfg = Local|Any CPU
+		{17FD792A-2F32-444A-8ECD-3EF2C29B815C}.Local|Any CPU.Build.0 = Local|Any CPU
+		{17FD792A-2F32-444A-8ECD-3EF2C29B815C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{17FD792A-2F32-444A-8ECD-3EF2C29B815C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{17FD792A-2F32-444A-8ECD-3EF2C29B815C}.UAT|Any CPU.ActiveCfg = UAT|Any CPU
+		{17FD792A-2F32-444A-8ECD-3EF2C29B815C}.UAT|Any CPU.Build.0 = UAT|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {2784A773-9CD3-4D2C-AA4C-BDBEDD9FD0BD}
+	EndGlobalSection
+EndGlobal

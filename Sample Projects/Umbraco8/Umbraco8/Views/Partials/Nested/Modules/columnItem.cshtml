@@ -1,0 +1,14 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoViewPage<Umbraco.Web.PublishedModels.ColumnItem>
+@{
+    Layout = null;
+    var components = Model.Value<IEnumerable<IPublishedElement>>("columnOptions");
+}
+
+@if (Model.HasValue("columnOptions"))
+{
+    foreach (var content in components)
+    {
+        @Html.Partial(string.Format("~/Views/Partials/Nested/{0}.cshtml", content.ContentType.Alias), content)
+    }
+}
+

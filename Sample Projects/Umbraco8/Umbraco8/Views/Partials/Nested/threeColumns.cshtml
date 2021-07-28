@@ -1,0 +1,48 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoViewPage<Umbraco.Web.PublishedModels.ThreeColumns>
+@using Umbraco.Web;
+@using Umbraco.Core.Models;
+@{
+    Layout = null;
+}
+
+<div class="row justify-content-center">
+    @if (Model.HasValue("columnOne"))
+    {
+        var components = Model.Value<IEnumerable<IPublishedElement>>("columnOne");
+        <div class="col-md-4">
+            @foreach (var content in components)
+            {
+                <div>
+                    @Html.Partial(string.Format("~/Views/Partials/Nested/Modules/{0}.cshtml", content.ContentType.Alias), content)
+                </div>
+            }
+
+        </div>
+    }
+    @if (Model.HasValue("columnTwo"))
+    {
+        var components = Model.Value<IEnumerable<IPublishedElement>>("columnTwo");
+        <div class="col-md-4">
+            @foreach (var content in components)
+            {
+                <div>
+                    @Html.Partial(string.Format("~/Views/Partials/Nested/Modules/{0}.cshtml", content.ContentType.Alias), content)
+                </div>
+            }
+
+        </div>
+    }
+    @if (Model.HasValue("columnThree"))
+    {
+        var components = Model.Value<IEnumerable<IPublishedElement>>("columnThree");
+        <div class="col-md-4">
+            @foreach (var content in components)
+            {
+                <div>
+                    @Html.Partial(string.Format("~/Views/Partials/Nested/Modules/{0}.cshtml", content.ContentType.Alias), content)
+                </div>
+            }
+
+        </div>
+    }
+</div>

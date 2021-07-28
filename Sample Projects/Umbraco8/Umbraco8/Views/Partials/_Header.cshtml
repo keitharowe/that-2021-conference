@@ -1,0 +1,28 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoViewPage
+
+@{
+    var home = Model.Root();
+}
+
+<header class="header">
+
+    <nav class="container-header navbar navbar-expand-lg">
+        <a class="navbar-brand" href="/">
+            <img src="logo_url_path" alt="Signature Health Logo" class="img-fluid logo-img" />
+        </a>
+        <button class="navbar-toggler menu-link collapsed" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbar-collapse" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="icon-bar one"></span>
+            <span class="icon-bar two"></span>
+            <span class="icon-bar three"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+            @{ Html.RenderPartial("MainNavigation", home); }
+
+
+
+
+        </div>
+    </nav>
+</header>

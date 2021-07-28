@@ -1,0 +1,10 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoViewPage<Umbraco.Web.PublishedModels.Button>
+@using Umbraco.Web.Models;
+@{
+    Layout = null;
+    var link = Model.Value<Link>("buttonLink");
+}
+@if (link != null)
+{
+    <a href="@link.Url" target="@link.Target" class="btn btn-primary @(Model.HasValue("buttonColor") ? $"bg-{Model.Value<Umbraco.Core.PropertyEditors.ValueConverters.ColorPickerValueConverter.PickedColor>("buttonColor").Label}" : string.Empty)">@link.Name</a>
+}

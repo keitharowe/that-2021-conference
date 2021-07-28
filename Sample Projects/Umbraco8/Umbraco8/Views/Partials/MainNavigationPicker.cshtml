@@ -1,0 +1,39 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoViewPage
+@using Umbraco.Web.Models;
+@{
+    var settings = Umbraco.Content(Guid.Parse("95ba9bda-453c-49b1-9bc4-458b78188786"));
+    var items = settings.Value<IEnumerable<IPublishedElement>>("mainNavigation");
+
+}
+
+<ul class="nav navbar-nav">
+    @foreach (var item in items)
+    {
+        var link = item.Value<Link>("mainLink");
+        var links = item.Value<IEnumerable<Link>>("dropdownLinks");
+
+        if (links.Any())
+        {
+            <li class="dropdown nav-item">
+                <a class="dropdown-toggle nav-link" data-toggle="dropdown" href="@link.Url">@link.Name</a>
+                <ul class="dropdown-menu">
+                    @foreach (var subPage in links)
+                    {
+                        <li><a href="@subPage.Url" class="nav-link">@subPage.Name</a></li>
+                    }
+
+                </ul>
+            </li>
+        }
+        else
+        {
+            <li class="nav-item">
+                <a href="@link.Url" target="@link.Target" class="nav-link">@link.Name</a>
+            </li>
+        }
+    }
+    <li class="nav-item">
+        <a href="#search" role="search" class="nav-link"><i class="fas fa-search"></i></a>
+    </li>
+
+</ul>

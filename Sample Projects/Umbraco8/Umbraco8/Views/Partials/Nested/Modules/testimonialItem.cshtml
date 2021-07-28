@@ -1,0 +1,18 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoViewPage<Umbraco.Web.PublishedModels.TestimonialItem>
+@using Umbraco.Web;
+@using Umbraco.Core.Models;
+@using Umbraco.Web.Models;
+@{
+    Layout = null;
+    var margin = Model.Value<string>("margin");
+    var padding = Model.Value<string>("padding");
+    var customId = Model.Value<string>("customID");
+    var customClass = Model.Value<string>("customClass");
+
+}
+
+<div id="@customId" class="@margin @padding @customClass @(Model.HasValue("backgroundColor") ? $"background-{Model.Value<Umbraco.Core.PropertyEditors.ValueConverters.ColorPickerValueConverter.PickedColor>("backgroundColor").Label}" : string.Empty)">
+
+    <div class="@(Model.HasValue("textColor") ? $"text-{Model.Value<Umbraco.Core.PropertyEditors.ValueConverters.ColorPickerValueConverter.PickedColor>("textColor").Label}" : string.Empty)">@(Model.Value<IHtmlString>("personDescription")) </div>
+    <div class="@(Model.HasValue("headlineColor") ? $"text-{Model.Value<Umbraco.Core.PropertyEditors.ValueConverters.ColorPickerValueConverter.PickedColor>("headlineColor").Label}" : string.Empty)">&mdash; @(Model.Value("personName"))</div>
+</div>

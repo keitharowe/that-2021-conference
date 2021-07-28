@@ -1,0 +1,108 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoViewPage
+@using ClientDependency.Core.Mvc;
+@{
+    Layout = "Master.cshtml";
+    var settings = Umbraco.Content(Guid.Parse("95ba9bda-453c-49b1-9bc4-458b78188786"));
+}
+
+@if (Model.HasValue("contentRows"))
+{
+    var components = Model.Value<IEnumerable<IPublishedElement>>("contentRows");
+
+    foreach (var content in components)
+    {
+        @Html.Partial(string.Format("~/Views/Partials/Nested/Modules/{0}.cshtml", content.ContentType.Alias), content)
+    }
+}
+
+@section jsonld {
+    @if (Model.HasValue("jSONLD"))
+    {
+        <script type="application/ld+json">
+            @Html.Raw(Model.Value("jSONLD"))
+        </script>
+    }
+    else
+    {
+        <script type="application/ld+json">
+            {
+            "@@context": "http://schema.org",
+            "@@type": "WebPage",
+            "name": "@(Model.HasValue("pageTitle") ? Model.Value("pageTitle") : Model.Name)",
+            "primaryImageOfPage": "@(Model.HasValue("metaImage") ? $"{Model.Url(mode: UrlMode.Absolute)}{Model.Value<IPublishedContent>("metaImage").Url}" : $"{Model.Url(mode: UrlMode.Absolute)}images/logo.png")",
+            "description": "@Model.Value("metaDescription")",
+            "url": "@Model.Url(mode: UrlMode.Absolute)",
+            "potentialAction": {
+            "@@type": "SearchAction",
+            "target": "@Model.Url(mode: UrlMode.Absolute)search?query={search_term}",
+            "query-input": "required name=search_term"
+            }
+            }
+        </script>
+        <script type="application/ld+json" id="social-json-ld">
+            {
+            "@@context":"http://schema.org",
+            "@@type":"Organization",
+            "name":"@Html.Raw(settings.Value<string>("companyName"))",
+            "url":"@Model.Url(mode: UrlMode.Absolute)",
+            "logo": "@($"{Model.Url(mode: UrlMode.Absolute)}images/logo.png")",
+            "sameAs":[
+            @if (settings.HasValue("facebook"))
+            {
+                <text>"@($"{settings.Value<string>("facebook")}")"</text>
+
+                if (settings.HasValue("twitter") || settings.HasValue("linkedIn") || settings.HasValue("youtube") || settings.HasValue("instagram"))
+                {
+                    <text>,</text>
+                }
+            }
+            @if (settings.HasValue("twitter"))
+            {
+                <text>"@($"{settings.Value<string>("twitter")}")"</text>
+
+                if (settings.HasValue("linkedIn") || settings.HasValue("youtube") || settings.HasValue("instagram"))
+                {
+                    <text>,</text>
+                }
+            }
+            @if (settings.HasValue("linkedIn"))
+            {
+                <text>"@($"{settings.Value<string>("linkedIn")}")"</text>
+
+                if (settings.HasValue("youtube") || settings.HasValue("instagram"))
+                {
+                    <text>,</text>
+                }
+            }
+            @if (settings.HasValue("youtube"))
+            {
+                <text>"@($"{settings.Value<string>("youtube")}")"</text>
+
+                if (settings.HasValue("instagram"))
+                {
+                    <text>,</text>
+                }
+            }
+            @if (settings.HasValue("instagram"))
+            {
+                <text>"@($"{settings.Value<string>("instagram")}")"</text>
+            }
+            ],
+            "address": {
+            "@@type": "PostalAddress",
+            "streetAddress": "@Html.Raw(settings.Value<string>("address"))",
+            "addressLocality": "@Html.Raw(settings.Value<string>("city"))",
+            "addressRegion": "@Html.Raw(settings.Value<string>("state"))",
+            "postalCode": "@Html.Raw(settings.Value<string>("zipCode"))",
+            "addressCountry": "USA"
+            },
+            "contactPoint": {
+            "@@type": "ContactPoint",
+            "contactType": "customer support",
+            "telephone": "+1 @Html.Raw(settings.Value<string>("phone"))",
+            "email": "@Html.Raw(settings.Value<string>("email"))"
+            }
+            }
+        </script>
+    }
+}

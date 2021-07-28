@@ -1,0 +1,20 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoViewPage<Umbraco.Web.PublishedModels.OneColumn>
+@using Umbraco.Web;
+@using Umbraco.Core.Models;
+@{
+    Layout = null;
+}
+
+<div class="row justify-content-center">
+    @if (Model.HasValue("columnOne"))
+    {
+        var components = Model.Value<IEnumerable<IPublishedElement>>("columnOne");
+
+        foreach (var content in components)
+        {
+            <div class="col-md-10">
+                @Html.Partial(string.Format("~/Views/Partials/Nested/Modules/{0}.cshtml", content.ContentType.Alias), content)
+            </div>
+        }
+    }
+</div>

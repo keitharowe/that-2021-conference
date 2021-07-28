@@ -1,0 +1,86 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoViewPage
+
+@{
+    var home = Model.Root();
+}
+
+<div class="container-fluid bg-gray">
+    <div class="footer-content">
+        <div class="row">
+            <div class="col-lg-3 col-md-3 col-sm-12 footer-logo">
+                <div class="footer-brand-logo">
+                    <a class="footer-brand" href="/">
+                        <img src="logo_url_path" alt="Footer Logo" class="img-fluid logo-img" width="150" />
+                    </a>
+                   
+                </div>
+
+            </div>
+            <div class="col-lg-6 col-md-9 col-sm-12">
+               
+                        @{ Html.RenderPartial("BottomNavigation", home); }
+                  
+            </div>
+
+            <div class="col-lg-3 col-md-6 col-sm-12">
+
+                <div class="social">
+                    <div class="col-md-12">
+                      
+
+                        <div class="col-md-12">
+                            @if (home.HasValue("facebook"))
+                            {
+                                <a href="@(home.Value<string>("facebook"))">
+                                    <img data-src="/Assets/Facebook.png" height="36" alt="facebook" class="img-fluid m-3 m-md-4 lazyloaded" src="/Assets/Facebook.png">
+                                </a>
+                            }
+                            @if (home.HasValue("twitter"))
+                            {
+                                <a href="@(home.Value<string>("Twitter"))">
+                                    <img data-src="/Assets/twitter.png" height="36" alt="facebook" class="img-fluid m-3 m-md-4 lazyloaded" src="/Assets/Twitter.png">
+                                </a>
+                            }
+                            @if (home.HasValue("linkedIn"))
+                            {
+                                <a href="@(home.Value<string>("linkedIn"))">
+                                    <img data-src="/Assets/linkedin.png" alt="linkedin" style="max-height:36px;" class="img-fluid m-3 m-md-4 lazyloaded" src="/Assets/linkedin.png">
+
+                                </a>
+                            }
+                            @if (home.HasValue("youtube"))
+                            {
+                                <a href="@(home.Value<string>("youtube"))">
+                                    <img data-src="/Assets/Youtube-black.png" height="36" alt="facebook" class="img-fluid m-3 m-md-4 lazyloaded" src="/Assets/Youtube-black.png">
+                                </a>
+                            }
+                            @if (home.HasValue("instagram"))
+                            {
+                                <a href="@(home.Value<string>("instagram"))">
+                                    <img data-src="/Assets/instagram.png" height="36" alt="facebook" class="img-fluid m-3 m-md-4 lazyloaded" src="/Assets/instagram.png">
+                                </a>
+                            }
+
+
+                        </div>
+
+
+
+
+
+                    </div>
+
+
+
+                </div>
+
+
+
+            </div>
+
+        </div>
+
+       
+       
+    </div>
+</div>

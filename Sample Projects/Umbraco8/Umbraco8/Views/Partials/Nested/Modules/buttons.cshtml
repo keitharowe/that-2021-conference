@@ -1,0 +1,35 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoViewPage<Umbraco.Web.PublishedModels.Buttons>
+@using Umbraco.Web;
+
+@{
+    Layout = null;
+}
+@if (!Model.Value<bool>("umbracoNaviHide"))
+{
+    <section class="button-wrap pt-5 pb-5 text-center @(Model.HasValue("backgroundColor") ? $"background-{Model.Value<Umbraco.Core.PropertyEditors.ValueConverters.ColorPickerValueConverter.PickedColor>("backgroundColor").Label}" : string.Empty)">
+
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-12">
+                    @if (!string.IsNullOrEmpty(Model.Value<string>("headline")))
+                    {
+                        <h2 class="mb-5">@(Model.Value<string>("headline"))</h2>
+                    }
+                    @if (Model.HasValue("copy"))
+                    {
+                        <div>@(Model.Value<IHtmlString>("copy"))</div>
+                    }
+                </div>
+            </div>
+            @if (Model.HasValue("addAButton"))
+            {
+                var components = Model.Value<IEnumerable<IPublishedElement>>("addAButton");
+
+                foreach (var content in components)
+                {
+                    @Html.Partial(string.Format("~/Views/Partials/Nested/Modules/{0}.cshtml", content.ContentType.Alias), content)
+                }
+            }
+        </div>
+    </section>
+}

@@ -1,0 +1,53 @@
+# ASP.NET
+# Build and test ASP.NET projects.
+# Add steps that publish symbols, save build artifacts, deploy, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/apps/aspnet/build-aspnet-4
+# Bitbucket Cloud Example: https://docs.microsoft.com/en-us/azure/devops/pipelines/repos/bitbucket?view=azure-devops&tabs=yaml
+trigger:
+  batch: true
+  branches:
+    include:
+    - develop
+    exclude:
+      - production
+
+
+pool:
+  vmImage: 'windows-latest'
+
+variables:
+  solution: '**/*.sln'
+  buildPlatform: 'Any CPU'
+  buildConfiguration: 'Release'
+
+steps:
+- task: NuGetToolInstaller@1
+
+- task: NuGetCommand@2
+  inputs:
+    restoreSolution: '$(solution)'
+
+- task: VSBuild@1
+  inputs:
+    solution: '$(solution)'
+    msbuildArgs: '/p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:AutoParameterizationWebConfigConnectionStrings=False /p:BuildNumber="$(build.buildId)" /p:PackageLocation="$(build.artifactStagingDirectory)" /p:IncludeSetAclProviderOnDestination=False'
+    platform: '$(buildPlatform)'
+    configuration: '$(buildConfiguration)'
+
+- task: VSTest@2
+  inputs:
+    platform: '$(buildPlatform)'
+    configuration: '$(buildConfiguration)'
+  
+- task: CopyFiles@2
+  displayName: 'Add Umbraco license file to $(Build.ArtifactStagingDirectory)'
+  inputs:
+    Contents: |
+      lib\umbracoForms.lic
+    TargetFolder: '$(Build.ArtifactStagingDirectory)'
+    OverWrite: true
+
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    ArtifactName: 'drop'

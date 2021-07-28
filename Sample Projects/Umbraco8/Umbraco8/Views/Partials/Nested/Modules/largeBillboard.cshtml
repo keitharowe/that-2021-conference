@@ -1,0 +1,41 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoViewPage<Umbraco.Web.PublishedModels.LargeBillboard>
+@using Umbraco.Web;
+@using Umbraco.Web.Models;
+@{
+    var image = Model.Value<IPublishedContent>("backgroundImage");
+    var link = Model.Value<Link>("buttonLink");
+     var margin = Model.Value<string>("margin");
+    var padding = Model.Value<string>("padding");
+    var customId = Model.Value<string>("customID");
+    var customClass = Model.Value<string>("customClass");
+}
+@if (!Model.Value<bool>("umbracoNaviHide"))
+{
+    <section id=" @customId" class="billboard-wrap jumbotron @margin  @padding   @customClass  @(Model.Value<bool>("firstBillboard") ? "billboard-negative-margin" : string.Empty)" @(image != null ? $"style=background-image:url({@image.Url})" : string.Empty)>
+        <div class="container">
+                <div class="row">
+                    <div class="col-sm-12 text-center">
+                        @if (!string.IsNullOrEmpty(Model.Value<string>("largeHeadline")))
+                        {
+                            <h1>
+                                @Html.Raw(Model.Value<string>("largeHeadline"))
+                            </h1>
+                        }
+                        @if (!string.IsNullOrEmpty(Model.Value<string>("smallHeadline")))
+                        {
+                            <h2>@(Model.Value<string>("smallHeadline"))</h2>
+                        }
+
+                        @if (Model.HasValue("description"))
+                        {
+                            <div>@(Model.Value<IHtmlString>("description"))</div>
+                        }
+                        @if (link != null)
+                        {
+                            <a href="@link.Url" target="@link.Target" class="btn btn-lg btn-primary">@link.Name</a>
+                        }
+                    </div>
+                </div>
+            </div>
+    </section>
+}

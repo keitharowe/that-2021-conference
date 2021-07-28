@@ -1,0 +1,59 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoViewPage<Umbraco.Web.PublishedModels.PagePicker>
+@using Umbraco.Web;
+
+@{
+    var selection = Model.Value<IEnumerable<IPublishedContent>>("pages");
+    var margin = Model.Value<string>("margin");
+    var padding = Model.Value<string>("padding");
+    var customId = Model.Value<string>("customID");
+    var customClass = Model.Value<string>("customClass");
+}
+@if (!Model.Value<bool>("umbracoNaviHide"))
+{
+    if (!string.IsNullOrEmpty(Model.Value<string>("headline")))
+    {
+        <div class="container">
+            <div class="row justify-content-center mt-3 mb-3">
+                <div class="col-md-12 text-center">
+
+                    <h2>@(Model.Value<string>("headline"))</h2>
+
+                    @if (Model.HasValue("description"))
+                    {
+                        <div>@(Model.Value<IHtmlString>("description"))</div>
+                    }
+                </div>
+            </div>
+        </div>
+    }
+    if (selection != null)
+    {
+        <section id="@customId" class="page-picker div-section @margin @padding @customClass @(Model.HasValue("backgroundColor") ? $"background-{Model.Value<Umbraco.Core.PropertyEditors.ValueConverters.ColorPickerValueConverter.PickedColor>("backgroundColor").Label}" : string.Empty)">
+
+            <div class="container">
+                <div class="row justify-content-center">
+                    @foreach (var item in selection)
+                    {
+                        var image = item.Value<IPublishedContent>("previewImage");
+                        <div class="child-list col-md-3">
+                            <div>
+                                @if (image != null)
+                                {
+                                    <a href="@item.Url" class="list-image">
+                                        <img data-src="@image.Url?&width=400" src="@image.Url?quality=10&width=400" class="lazyload object-fit img-fluid thumbnail" alt="@(image.HasValue("altText") ? $"{@image.Value("altText")}" : $"{@image.Name}")" />
+                                    </a>
+                                }
+                                <h3><a href="@item.Url" class="wrap text-center">@item.Name</a></h3>
+                                @if (item.HasValue("previewDescription"))
+                                {
+                                    <div>@(item.Value<IHtmlString>("previewDescription"))</div>
+                                }
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </section>
+    }
+
+}

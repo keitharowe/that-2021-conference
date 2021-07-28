@@ -1,0 +1,66 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoViewPage<Umbraco.Web.PublishedModels.Faqs>
+@using Umbraco.Web;
+@using Umbraco.Core.Models;
+@using Umbraco.Web.Models;
+@{
+    Layout = null;
+    var margin = Model.Value<string>("margin");
+    var padding = Model.Value<string>("padding");
+    var customId = Model.Value<string>("customID");
+    var customClass = Model.Value<string>("customClass");
+
+}
+@if (!Model.Value<bool>("umbracoNaviHide"))
+{
+    <section id=" @customId" class="faqs div-section @margin @padding @customClass @(Model.HasValue("backgroundColor") ? $"background-{Model.Value<Umbraco.Core.PropertyEditors.ValueConverters.ColorPickerValueConverter.PickedColor>("backgroundColor").Label}" : string.Empty)">
+
+        @if (!string.IsNullOrEmpty(Model.Value<string>("headline")))
+        {
+            <div class="container">
+                <div class="row justify-content-center mt-3 mb-3">
+                    <div class="col-md-12 text-center">
+
+                        <h2>@(Model.Value<string>("headline"))</h2>
+
+                        @if (Model.HasValue("description"))
+                        {
+                            <div>@(Model.Value<IHtmlString>("description"))</div>
+                        }
+                    </div>
+                </div>
+            </div>
+        }
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    @if (Model.HasValue("fAQ"))
+                    {
+                        var components = Model.Value<IEnumerable<IPublishedElement>>("fAQ");
+                        int counter = 0;
+
+                        <div class="accordion" id="accordion">
+                            @foreach (var content in components)
+                            {
+                                <div class="card">
+                                    <div class="card-header" id="@String.Concat(counter, "-headingQuestion")">
+
+                                        <button type="button" data-toggle="collapse" data-target="#@String.Concat("heading", counter)" aria-expanded="true" aria-controls="@String.Concat(counter, "-headingQuestion")">
+                                            @(content.Value("headingQuestion"))
+                                        </button>
+
+                                    </div>
+                                    <div id="@String.Concat("heading", counter)" class="collapse" aria-labelledby="@String.Concat(counter, "-headingQuestion")" data-parent="#accordion">
+                                        <div class="card-body">
+                                            @(content.Value("answer"))
+                                        </div>
+                                    </div>
+                                </div>
+                                counter++;
+                            }
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </section>
+}

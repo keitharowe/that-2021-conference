@@ -1,0 +1,42 @@
+@using Articulate
+@using Umbraco.Core
+@model Articulate.Models.PostModel
+@{
+    Layout = "Master.cshtml";
+    ViewBag.CssBodyClass = "post-template";
+}
+@section title {
+    <title>@Model.PageTitle</title>
+}
+
+
+<section id="main">
+    <div class="mt-5 mb-5 container">
+        <div class="row justify-content-center">
+
+            <div class="col-md-10 blog-post">
+                <div class="blog-post-header">
+                    <h1 class="blog-h1">
+                        @Model.Name
+                    </h1>
+                    <time datetime="@Model.PublishedDate.ToString("yyyy-MM-dd")">
+                        @Model.PublishedDate.ToString("dddd, MMMM dd, yyyy")
+                    </time>
+                </div>
+
+                @if (!Model.CroppedPostImageUrl.IsNullOrWhiteSpace())
+                {
+                    <img class="img-fluid mt-5 mb-5 main-image" alt="@Model.Name" src="@Model.CroppedPostImageUrl" />
+                }
+                <div class="blog-body">
+                    @Model.Body
+                </div>
+                <div class="g-lines"></div>
+                <p><a href="/blog" class="btn btn-blue"><i class="fas fa-arrow-left"></i> Return to Blog </a></p>
+            </div>
+            <div class="col-md-3">
+                @Html.ThemedPartial(Model, "PostTags")
+            </div>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,53 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoViewPage
+
+@{
+    var homePage = Model.Root();
+    var menuPages = homePage.Children().Where(f => f.IsVisible());
+    var isHomePage = homePage.Id == Model.Id;
+}
+
+<ul class="nav navbar-nav">
+    <li class="@(isHomePage ? " active" : string.Empty) nav-item"><a class="nav-link" href="@homePage.Url">@homePage.Name</a></li>
+    @foreach (var item in menuPages)
+    {
+        //set active class if current page is in this section
+        var activeClass = !isHomePage && Model.Path.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries).Contains(item.Id.ToString()) ? "selected" : string.Empty;
+        // you could filter out certain children by document type alias but this would be 'any children'
+        var subMenuItems = item.Children().Where(f => f.IsVisible());
+        var blog = item.Children().Where(x => x.ContentType.Alias == "ArticulateArchive");
+        if (subMenuItems.Any())
+        {
+            <li class="dropdown nav-item">
+                <a class="dropdown-toggle @activeClass nav-link" data-toggle="dropdown" href="@item.Url">@(item.HasValue("linkText") ? item.Value<string>("linkText") : item.Name)</a>
+                <ul class="dropdown-menu">
+                    <li><a href="@item.Url" class="nav-link">@item.Name</a></li>
+                    @foreach (var subPage in subMenuItems)
+                    {
+                        <li><a href="@subPage.Url" class="nav-link">@(subPage.HasValue("linkText") ? subPage.Value<string>("linkText") : subPage.Name)</a></li>
+                    }
+
+                </ul>
+            </li>
+            if (blog.Any())
+            {
+                <li class="nav-item">
+                    <a href="@item.Url" class="nav-link">@(item.HasValue("linkText") ? item.Value<string>("linkText") : item.Name)</a>
+                </li>
+            }
+            else
+            {
+
+            }
+        }
+        else
+        {
+            // no sub menu
+            <li class="@activeClass nav-item">
+                <a href="@item.Url" class="nav-link">@(item.HasValue("linkText") ? item.Value<string>("linkText") : item.Name)</a>
+            </li>
+        }
+    }
+    <li class="nav-item">
+        <a href="#search" role="search" class="nav-link"><i class="fas fa-search"></i></a>
+    </li>
+</ul>

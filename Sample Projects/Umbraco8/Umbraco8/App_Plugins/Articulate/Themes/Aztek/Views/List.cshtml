@@ -1,0 +1,82 @@
+@using Articulate
+@using Articulate.Models
+@using ClientDependency.Core.Mvc
+@using Umbraco.Core
+@using Umbraco.Web
+@using Umbraco.Web.Models
+@model Articulate.Models.ListModel
+@{
+    Layout = "Master.cshtml";
+    int currentPage = Model.Pages.CurrentPageIndex + 1;
+}
+@section title {
+    <title>@Model.PageTitle - Page @currentPage of @Model.Pages.TotalPages</title>
+}
+
+<section class="billboard">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h1>
+
+                    @Model.Parent.Name
+
+                </h1>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="main">
+    <div class="mt-5 mb-5 container">
+        <div class="row justify-content-center">
+            <div class="col-md-12 blog-wrapper">
+
+                @if (!Model.Children.Any())
+                {
+                    <article>No blog posts found</article>
+                }
+                else
+                {
+                    foreach (var post in Model.Posts)
+                    {
+
+                        <article class="row blog-list align-items-center">
+
+                            @if (post.PostImage != null)
+                            {
+                                var thumbnail = Url.GetCropUrl(post.PostImage, cropAlias: "blogPost", useCropDimensions: true, htmlEncode: false, upScale: false);
+                                if (thumbnail != null)
+                                {
+                                    <div class="col-md-4 blog-image-wrap text-center">
+                                        <a href="@post.Url" class="blog-image"><img src="@thumbnail" class="post-list-image img-fluid object-fit" /></a>
+                                    </div>
+                                }
+                            }
+                            <div class="col-md-8 blog-text-wrap">
+                                <div class="post-meta">
+                                    <time datetime="@post.PublishedDate.ToString("yyyy-MM-dd")">
+                                        <small>@post.PublishedDate.ToString("dddd, MMMM dd, yyyy")</small>
+                                    </time>
+                                </div>
+                                <h3 class="post-title">
+                                    <a href="@post.Url">@post.Name</a>
+                                </h3>
+
+                                <p>
+                                    @post.Excerpt&hellip;
+                                </p>
+                            </div>
+                        </article>
+
+                    }
+                    @Html.ThemedPartial(Model, "Pager", Model.Pages)
+
+                }
+
+            </div>
+
+        </div>
+    </div>
+</section>
+

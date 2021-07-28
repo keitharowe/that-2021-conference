@@ -1,0 +1,41 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoViewPage
+@using Umbraco.Web
+
+
+@*
+    This snippet makes a list of links to the of children of the current page using an unordered HTML list.
+
+    How it works:
+    - It uses the Children method to get all child pages
+    - It then generates links so the visitor can go to each page
+*@
+
+@{ var selection = Model.Children.Where(x => x.IsVisible()).ToArray(); }
+
+@if (selection.Length > 0)
+{
+    <section class="container">
+        <div class="row justify-content-center">
+            @foreach (var item in selection)
+            {
+                var image = item.Value<IPublishedContent>("listingImage");
+            <div class="child-list col-md-3">
+                <div>
+                    @if (image == null)
+                    {
+                    }
+                    else
+                    {
+                        <a href="@item.Url" class="list-image"><img data-src="@image.Url?&width=400" src="@image.Url?quality=10&width=400" class="lazyload object-fit img-fluid thumbnail" /></a>
+
+                    }
+                    <a href="@item.Url" class="wrap text-center">
+                          @item.Name
+                    </a>
+
+                </div>
+            </div>
+            }
+        </div>
+    </section>
+}

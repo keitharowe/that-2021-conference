@@ -1,0 +1,15 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoViewPage
+@using Umbraco.Web
+@using Umbraco.Web.Routing;
+
+@if (Model.HasProperty("automaticCanonicalLink") && Model.Value<bool>("automaticCanonicalLink"))
+{
+    if (Model.HasProperty("overrideCanonicalLink") && !string.IsNullOrEmpty(Model.Value<string>("overrideCanonicalLink")))
+    {
+        <link rel="canonical" href="@(Model.Value<string>("overrideCanonicalLink"))" />
+    }
+    else
+    {
+        <link rel="canonical" href="@Model.Url(null, UrlMode.Absolute)" />
+    }
+}

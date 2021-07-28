@@ -1,0 +1,190 @@
+﻿﻿@inherits Umbraco.Web.Mvc.UmbracoViewPage
+@using ClientDependency.Core.Mvc;
+@{
+    Layout = null;
+    var home = Model.Root();
+    var settings = Umbraco.Content(Guid.Parse("95ba9bda-453c-49b1-9bc4-458b78188786"));
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    @if (settings.HasValue("googleTagManager"))
+    {
+        <script>
+        (function (w, d, s, l, i) {
+            w[l] = w[l] || []; w[l].push({
+                'gtm.start':
+                    new Date().getTime(), event: 'gtm.js'
+            }); var f = d.getElementsByTagName(s)[0],
+                j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
+                    'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+        })(window, document, 'script', 'dataLayer', '@(settings.Value<string>("googleTagManager"))');
+        </script>
+    }
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="@(Model.Value<string>("metaDescription"))">
+    <title>
+        @(Model.HasValue("pageTitle") ? string.Format("{0} | {1}", Model.Value<string>("pageTitle"), settings.Value<string>("siteTitle")) : string.Format("{0} | {1}", Model.Name, settings.Value<string>("siteTitle")))
+    </title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+
+    @Html.Partial("_CanonicalLink", Model)
+
+    @{
+        Html.RequiresCss("~/css/main.min.css");
+        Html.RequiresJs("~/scripts/main.js");
+    }
+    @Html.RenderCssHere()
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon" sizes="57x57" href="/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/apple-touch-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180x180.png">
+    <link rel="icon" type="image/png" href="/favicon-16x16.png" sizes="16x16">
+    <link rel="icon" type="image/png" href="/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/png" href="/android-chrome-192x192.png" sizes="192x192">
+    <meta name="msapplication-square70x70logo" content="/smalltile.png" />
+    <meta name="msapplication-square150x150logo" content="/mediumtile.png" />
+    <meta name="msapplication-wide310x150logo" content="/widetile.png" />
+    <meta name="msapplication-square310x310logo" content="/largetile.png" />
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="&#64;COMPANYHASTTAG" />
+    <meta name="twitter:title" content="@(Model.Value<string>("pageTitle"))">
+    <meta name="twitter:description" content="@(Model.HasValue("socialDescription") ? $"{@Model.Value("socialDescription")}" : $"{@Model.Value("metaDescription")}")">
+    @*TODO - REPLACE PLACEHOLDERS*@
+    <meta name="twitter:image:src" content="@(Model.HasValue("metaImage") ? $"baseurl{Model.Value<IPublishedContent>("metaImage").Url}" : "fallback-image-url")">
+    <!-- Open Graph General (Facebook & Pinterest) -->
+    <meta property="og:url" content="FULL URL">
+    <meta property="og:title" content="@(Model.Value<string>("pageTitle"))">
+    <meta property="og:description" content="@(Model.HasValue("socialDescription") ? $"{@Model.Value("socialDescription")}" : $"{@Model.Value("metaDescription")}")">
+    <meta property="og:site_name" content="@(settings.Value<string>("siteTitle"))">
+    @*TODO - REPLACE PLACEHOLDERS*@
+    <meta property="og:image" content="@(Model.HasValue("metaImage") ? $"baseurl{Model.Value<IPublishedContent>("metaImage").Url}" : "fallback-image-url")">
+    <meta property="og:type" content="website">
+    @RenderSection("head", false)
+    @(Model.Value<string>("headerScripts"))
+    @if (!Model.Value<bool>("noIndex"))
+    {
+        <meta name="robots" content="noindex">
+    }
+   @if (settings.Value<bool>("cookieBannerActive"))
+    {
+        { Html.RenderPartial("CookieBanner", home); }
+    }
+</head>
+<body class="@Model.Name">
+    @if (settings.HasValue("googleTagManager"))
+    {
+        <noscript>
+            <iframe src="https://www.googletagmanager.com/ns.html?id=@(settings.Value<string>("googleTagManager"))" height="0" width="0" style="display:none;visibility:hidden" title="Google Tag Manager"></iframe>
+        </noscript>
+    }
+    @if (!Model.Value<bool>("adLandingPage"))
+    {
+        if (settings.HasValue("helloBar"))
+        {
+            <div class="hello-bar">
+                @(settings.Value<IHtmlString>("helloBar"))
+            </div>
+        }
+    }
+        <a href="#main-content" class="sr-only">Skip to Content</a>
+        <header>
+            <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                <a class="navbar-brand" href="#">Navbar</a>
+                @if (!Model.Value<bool>("adLandingPage"))
+                {
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        @{ Html.RenderPartial("MainNavigationPicker", home); }
+                    </div>
+                }
+            </nav>
+        </header>
+        <a class="sr-only" id="main-content"></a>
+        @RenderBody()
+        @if (!Model.Value<bool>("adLandingPage"))
+        {
+            <footer>
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div>
+                                <a href="@(settings.Value<string>("companyURL"))">
+                                    <div><strong>@(settings.Value<string>("companyName"))</strong></div>
+                                </a>
+                                <div>
+                                    <span>@(settings.Value<string>("address"))</span>,<br>
+                                    <span>@(settings.Value<string>("city"))</span>,
+                                    <span>@(settings.Value<string>("state"))</span> <span>@(settings.Value<string>("zipCode"))</span><br>
+                                </div>
+                                <strong>Tel: </strong><span><a href="tel:12345">@(settings.Value<string>("phone"))</a></span><br>
+                            </div>
+                            <div class="copyright">
+                                <p> &copy; @DateTime.Now.Year @(settings.Value<string>("siteTitle")). All rights reserved. </p>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="social text-center">
+                                @if (settings.HasValue("facebook"))
+                                {
+                                    <a href="@(settings.Value<string>("facebook"))"><i class="fab fa-facebook-square"></i><span class="sr-only">Facebook</span></a>
+                                }
+                                @if (settings.HasValue("twitter"))
+                                {
+                                    <a href="@(settings.Value<string>("Twitter"))"><i class="fab fa-twitter"></i><span class="sr-only">Twitter</span></a>
+                                }
+                                @if (settings.HasValue("linkedIn"))
+                                {
+                                    <a href="@(settings.Value<string>("linkedIn"))"><i class="fab fa-linkedin-in"></i><span class="sr-only">LinkedIn</span></a>
+                                }
+                                @if (settings.HasValue("youtube"))
+                                {
+                                    <a href="@(settings.Value<string>("youtube"))"><i class="fab fa-youtube"></i><span class="sr-only">Youtube</span></a>
+                                }
+                                @if (settings.HasValue("instagram"))
+                                {
+                                    <a href="@(settings.Value<string>("instagram"))"><i class="fab fa-instagram"></i><span class="sr-only">Instagram</span></a>
+                                }
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            @{ Html.RenderPartial("BottomNavigation", settings); }
+                        </div>
+                    </div>
+                </div>
+            </footer>
+        }
+        <!--Search-->
+        <div id="search" class="d-none">
+            <button type="button" class="close" aria-label="Close Search Modal">&times;</button>
+            <form method="get" id="cse-search-box" action="/searchresults" class="form-inline my-2 my-lg-0">
+                <label class="sr-only" for="usterms">Search</label>
+                <span id="UltimateSearchInput1" class="search">
+                    <input name="query" type="search" placeholder="type keyword(s) here" id="usterms" class="searchBox form-control mr-sm-2" autocomplete="off" />
+                    <button id="searchsubmit" type="submit" class="btn">Search</button>
+                </span>
+            </form>
+        </div>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+        <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+        @Html.RenderJsHere()
+        @(Model.Value<string>("footerScripts"))
+        @RenderSection("jsonld", false)
+    </body>
+</html>

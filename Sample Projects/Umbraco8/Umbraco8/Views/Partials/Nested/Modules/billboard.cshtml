@@ -1,0 +1,19 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoViewPage<Umbraco.Web.PublishedModels.Billboard>
+@using Umbraco.Web;
+@if (!Model.Value<bool>("umbracoNaviHide"))
+{
+    if (Model.HasValue("billboardOptions"))
+    {
+        var components = Model.Value<IEnumerable<IPublishedElement>>("billboardOptions");
+
+        foreach (var content in components)
+        {
+            @Html.Partial(string.Format("~/Views/Partials/Nested/Modules/{0}.cshtml", content.ContentType.Alias), content)
+        }
+
+    }
+}
+
+
+
+

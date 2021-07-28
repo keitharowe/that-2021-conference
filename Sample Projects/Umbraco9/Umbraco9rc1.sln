@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31410.357
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Umbraco9rc1", "Umbraco9rc1\Umbraco9rc1.csproj", "{EF9CB342-A566-4E39-B5F9-655388D1113C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{5A891895-67FE-4D98-B849-E85A0B60D4DE}"
+	ProjectSection(SolutionItems) = preProject
+		.gitignore = .gitignore
+		azure-pipelines.yml = azure-pipelines.yml
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{EF9CB342-A566-4E39-B5F9-655388D1113C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EF9CB342-A566-4E39-B5F9-655388D1113C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EF9CB342-A566-4E39-B5F9-655388D1113C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EF9CB342-A566-4E39-B5F9-655388D1113C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {D6483CFB-0DDB-4DAF-98B8-5A2A8742B777}
+	EndGlobalSection
+EndGlobal

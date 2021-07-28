@@ -1,0 +1,35 @@
+﻿
+
+/*Back Office Updates
+.form-horizontal .control-label, .umb-control-group .control-header .control-label {
+    width: auto;
+    float: none;
+}
+
+.form-horizontal .umb-control-group .control-header .control-label {
+    margin-bottom: 0;
+}
+.form-horizontal .control-group {margin-bottom:0;}
+.form-horizontal .umb-control-group .control-header .control-description, .form-horizontal .umb-control-group .control-header {
+    max-width: 100%;
+    width: 100%;
+}
+
+    .form-horizontal .umb-control-group .control-header .control-description {
+        margin-bottom: 3px;
+    }
+
+.form-horizontal .controls {
+    margin-left: 0;
+}
+    */
+.umb-app-header, .umb-panel-group__details-group-title {
+    background-color: #393939;
+    color: #FFF;
+}
+
+ul.sections > li > a {
+    outline: 0;
+}
+
+b {color:#000 !important}

@@ -1,0 +1,14 @@
+@using Articulate
+@using Articulate.Models
+@using Umbraco.Core.Cache
+@using Umbraco.Core.Security
+@using Umbraco.Web.Models
+@using Umbraco.Web.Security
+@inherits UmbracoViewPage<IMasterModel>
+
+
+
+    <div class="drop-shadow">
+
+        @Html.ThemedPartial(Model, "Menu", Model)
+    </div>

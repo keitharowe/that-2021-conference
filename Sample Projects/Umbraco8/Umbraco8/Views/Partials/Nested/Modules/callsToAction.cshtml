@@ -1,0 +1,75 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoViewPage<Umbraco.Web.PublishedModels.CallsToAction>
+@using Umbraco.Web.Models;
+@if (!Model.Value<bool>("umbracoNaviHide"))
+{
+
+    if (Model.HasValue("cTAs"))
+    {
+        var components = Model.Value<IEnumerable<IPublishedElement>>("cTAs");
+
+        <section class="ctas div-section @(Model.HasValue("backgroundColor") ? $"background-{Model.Value<Umbraco.Core.PropertyEditors.ValueConverters.ColorPickerValueConverter.PickedColor>("backgroundColor").Label}" : string.Empty)">
+            <div class="container-fluid">
+                @if (!string.IsNullOrEmpty(Model.Value<string>("headline")))
+                {
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h2 class="text-center mb-5">@(Model.Value<string>("headline"))</h2>
+                        </div>
+                    </div>
+                }
+                <div class="row justify-content-center">
+                    @foreach (var content in components)
+                    {
+                        var linkContent = Model.Value<Link>("buttonLink");
+                        var image = content.Value<IPublishedContent>("image");
+
+                        <div class="col-md-4">
+                            <div class="card">
+                                @if (image != null)
+                                {
+                                    if (linkContent != null)
+                                    {
+                                        <a href="@linkContent.Url">
+                                            <img data-src="@(image.Url)" class="lazyload img-fluid card-img-top" alt="@(image.HasValue("altText") ? $"{@image.Value("altText")}" : $"{@image.Name}")" />
+                                        </a>
+                                    }
+                                    else
+                                    {
+                                        <img data-src="@(image.Url)" class="lazyload img-fluid card-img-top" alt="@(image.HasValue("altText") ? $"{@image.Value("altText")}" : $"{@image.Name}")" />
+                                    }
+                                }
+                            <div class="card-body">
+                                @if (content.HasValue("ctaHeadline"))
+                                {
+                                    <h2 class="card-title">
+                                        @if (linkContent != null)
+                                        {
+                                            <a href="@linkContent.Url">@(content.Value<string>("ctaHeadline"))</a>
+                                        }
+                                        else
+                                        {
+                                            @(content.Value<string>("ctaHeadline"))
+                                        }
+                                    </h2>
+                                }
+                                @if (content.HasValue("subheadline"))
+                                {
+                                    <h4 class="card-subtitle text-muted">@(content.Value<string>("subheadline"))</h4>
+                                }
+                                @if (content.HasValue("description"))
+                                {
+                                    <div class="card-text">@(content.Value<IHtmlString>("description"))</div>
+                                }
+                                @if (linkContent != null && content.HasValue("linkText"))
+                                {
+                                    <a href="@linkContent.Url" class="btn btn-primary">@linkContent.Name</a>
+                                }
+                            </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </section>
+    }
+}

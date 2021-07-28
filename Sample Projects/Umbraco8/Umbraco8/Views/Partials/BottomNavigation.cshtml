@@ -1,0 +1,16 @@
+@inherits Umbraco.Web.Mvc.UmbracoViewPage
+@using Umbraco.Web.Models
+@{ var pages = Model.Value<IEnumerable<Link>>("footerNavigation"); }
+
+@if (pages != null)
+{
+    <ul class="list-unstyled mb-0 row" id="footer-nav">
+        @foreach (var item in pages)
+        {
+            <li class="footer-link d-inline">
+                <a href="@item.Url">@item.Name</a>
+            </li>
+        }
+    </ul>
+}
+

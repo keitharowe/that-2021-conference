@@ -1,0 +1,90 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoViewPage<Umbraco.Web.PublishedModels.TextWithImage>
+@using Umbraco.Web;
+@using Umbraco.Core.Models;
+
+@{
+    var image = Model.Value<IPublishedContent>("image");
+    bool isLeft = Model.Value<string>("imagePlacement") == "Image Left";
+    var margin = Model.Value<string>("margin");
+    var padding = Model.Value<string>("padding");
+    var customId = Model.Value<string>("customID");
+    var customClass = Model.Value<string>("customClass");
+
+
+}
+@if (!Model.Value<bool>("umbracoNaviHide"))
+{
+    <section id=" @customId" class="@margin  @padding   @customClass  @(Model.HasValue("backgroundColor") ? $"background-{Model.Value<Umbraco.Core.PropertyEditors.ValueConverters.ColorPickerValueConverter.PickedColor>("backgroundColor").Label}" : string.Empty)">
+
+        @if (isLeft)
+        {
+            <div class="container">
+                <div class="row align-items-center">
+                    @if (image != null)
+                    {
+                        <div class="col-md-6">
+                            <figure>
+                                <img src="@image.Url" class="img-fluid" alt="@(image.HasValue("altText") ? $"{@image.Value("altText")}" : $"{@image.Name}")" />
+                                @if (!string.IsNullOrEmpty(Model.Value<string>("imageSubtitle")))
+                                {
+                                    <figcaption class="@(Model.HasValue("textColor") ? $"text-{Model.Value<Umbraco.Core.PropertyEditors.ValueConverters.ColorPickerValueConverter.PickedColor>("textColor").Label}" : string.Empty)">@(Model.Value<string>("imageSubtitle"))</figcaption>
+                                }
+                            </figure>
+                        </div>
+                    }
+
+                <div class="col-md-6">
+                    @if (!string.IsNullOrEmpty(Model.Value<string>("headline")))
+                    {
+                        <h2 class="@(Model.HasValue("headlineColor") ? $"text-{Model.Value<Umbraco.Core.PropertyEditors.ValueConverters.ColorPickerValueConverter.PickedColor>("headlineColor").Label}" : string.Empty)">
+                            @(Model.Value<string>("headline"))
+                        </h2>
+                    }
+                    @if (Model.HasValue("copy"))
+                    {
+
+                        <div class="@(Model.HasValue("textColor") ? $"text-{Model.Value<Umbraco.Core.PropertyEditors.ValueConverters.ColorPickerValueConverter.PickedColor>("textColor").Label}" : string.Empty)">
+                            @(Model.Value<IHtmlString>("copy"))
+                        </div>
+                    }
+                </div>
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6">
+                        @if (!string.IsNullOrEmpty(Model.Value<string>("headline")))
+                        {
+                            <h2 class="@(Model.HasValue("headlineColor") ? $"text-{Model.Value<Umbraco.Core.PropertyEditors.ValueConverters.ColorPickerValueConverter.PickedColor>("headlineColor").Label}" : string.Empty)">
+                                @(Model.Value<string>("headline"))
+                            </h2>
+                        }
+                        @if (Model.HasValue("copy"))
+                        {
+
+                            <div class="@(Model.HasValue("textColor") ? $"text-{Model.Value<Umbraco.Core.PropertyEditors.ValueConverters.ColorPickerValueConverter.PickedColor>("textColor").Label}" : string.Empty)">
+                                @(Model.Value<IHtmlString>("copy"))
+                            </div>
+                        }
+                    </div>
+                    @if (image != null)
+                    {
+                        <div class="col-md-6">
+                            <figure>
+                                <img src="@image.Url" class="img-fluid" alt="@(image.HasValue("altText") ? $"{@image.Value("altText")}" : $"{@image.Name}")" />
+                                @if (!string.IsNullOrEmpty(Model.Value<string>("imageSubtitle")))
+                                {
+                                    <figcaption class="@(Model.HasValue("textColor") ? $"text-{Model.Value<Umbraco.Core.PropertyEditors.ValueConverters.ColorPickerValueConverter.PickedColor>("textColor").Label}" : string.Empty)">@(Model.Value<string>("imageSubtitle"))</figcaption>
+                                }
+                            </figure>
+                        </div>
+                    }
+                </div>
+            </div>
+        }
+
+    </section>
+}

@@ -1,0 +1,33 @@
+@using Articulate.Models
+@using Umbraco.Core.Cache
+@using Umbraco.Web.Models
+@using Umbraco.Web
+@using Umbraco.Core
+@model IImageModel
+@{
+	var postBg = "none";
+
+	if (Model.Image != null)
+	{
+		var bgUrl = Url.GetCropUrl(Model.Image, cropAlias: "wide", useCropDimensions: true, htmlEncode: false, upScale: false);
+		if (bgUrl != null)
+		{
+			postBg = "bgUrl";
+		}
+
+
+				<h3>
+					<a href="@Model.Url">@Model.Name</a>
+				</h3>
+
+	}
+	else
+	{
+
+			<h3 class="quote">
+				<a href="@Model.Url">@Model.Name</a>
+			</h3>
+
+
+	}
+}

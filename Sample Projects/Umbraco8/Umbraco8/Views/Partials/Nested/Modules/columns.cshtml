@@ -1,0 +1,46 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoViewPage<Umbraco.Web.PublishedModels.Columns>
+@using Umbraco.Web;
+@using Umbraco.Core.Models;
+@{
+    Layout = null;
+    var margin = Model.Value<string>("margin");
+    var padding = Model.Value<string>("padding");
+    var customId = Model.Value<string>("customID");
+    var customClass = Model.Value<string>("customClass");
+}
+@if (!Model.Value<bool>("umbracoNaviHide"))
+{
+    <section id=" @customId" class="@margin  @padding  @customClass  @(Model.HasValue("backgroundColor") ? $"background-{Model.Value<Umbraco.Core.PropertyEditors.ValueConverters.ColorPickerValueConverter.PickedColor>("backgroundColor").Label}" : string.Empty)">
+
+
+        <div class="container">
+            <div class="row justify-content-center mt-3 mb-3">
+                <div class="col-md-12 text-center">
+                    @if (!string.IsNullOrEmpty(Model.Value<string>("headline")))
+                    {
+                        <h2>@(Model.Value<string>("headline"))</h2>
+                    }
+                    @if (Model.HasValue("description"))
+                    {
+                        <div>@(Model.Value<IHtmlString>("description"))</div>
+                    }
+                </div>
+            </div>
+        </div>
+
+        @if (Model.HasValue("column"))
+        {
+            var components = Model.Value<IEnumerable<IPublishedElement>>("column");
+
+            <div class="@(Model.Value<bool>("fullWidth") ? "container-fluid" : "container")">
+                @foreach (var content in components)
+                {
+
+                    @Html.Partial(string.Format("~/Views/Partials/Nested/{0}.cshtml", content.ContentType.Alias), content)
+
+                }
+            </div>
+        }
+
+    </section>
+}
