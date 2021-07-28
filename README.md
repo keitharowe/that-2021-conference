@@ -20,3 +20,9 @@ Overview, in this session we will:
 
 Prerequisites
 Familiarity with DevOps concepts
+
+### In this repo, you will find:
+/Sample Projects
+* Sample Visual Studio projects used for the build piplines
+* Sample projects are vanilla Umbraco CMS projects; one in .NET Framework v8 and another in .NET 5 v9 RC1
+Presentation Deck THAT _2021 - Agency DevOps.pptx_
